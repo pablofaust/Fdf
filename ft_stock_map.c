@@ -6,24 +6,13 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:46:55 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/09 16:58:41 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/12 13:51:02 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*static t_points		*ft_newpoint(int x, int y, int z)
-  {
-  t_points		*new;
 
-  if (!(new = (t_points*)malloc(sizeof(t_points))))
-  return (NULL);
-  new->x = x;
-  new->y = y;
-  new->z = z;
-  new->next = NULL;
-  return (new);
-  }*/
 
 int					*ft_atoi_tab_to_line(char **tab, t_env *env)
 {
@@ -37,10 +26,7 @@ int					*ft_atoi_tab_to_line(char **tab, t_env *env)
 			return (NULL);
 		i = -1;
 		while (tab[++i])
-		{
 			atoi_line[i] = ft_atoi(tab[i]);
-			//printf("str avant : %10s nbr : %5d i : %5d \n", tab[i], atoi_line[i], i);
-		}
 	}
 	else
 		return (NULL);
@@ -88,7 +74,7 @@ int					**ft_stock_map_in_tab(t_env *env)
 		env = ft_add_to_matrix(env, tab);
 	}
 	j = 0;
-	while (j < env->y_len)
+/*	while (j < env->y_len)
 	{
 		i = 0;
 		while (i < env->x_len)
@@ -98,13 +84,14 @@ int					**ft_stock_map_in_tab(t_env *env)
 		}
 		printf("\n");
 		j++;
-	}
+	}*/
 	return (NULL);
 }
 
 int					main (int argc, char **argv)
 {
 	t_env		env;
+	t_points	*points;
 	int			**tab;
 
 	if (argc < 2 || argc > 2)
@@ -116,6 +103,9 @@ int					main (int argc, char **argv)
 	env.matrix = NULL;
 	env.y_len = 0;
 	tab = ft_stock_map_in_tab(&env);
-	//ft_open_window(argv);
+	//points = ft_stock_to_struct(&env);
+	env.mlx = mlx_init();
+	env.title = argv[1];
+	ft_create_image(&env);
 	return (0);
 }
