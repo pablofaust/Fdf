@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:59:18 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/11 14:37:10 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/17 17:38:16 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ typedef struct				s_env
 	int						**matrix;
 	int						y_len;
 	int						x_len;
+	int						width;
+	int						height;
+	int						margin_x;
+	int						margin_y;
+	int						scale;
 }							t_env;
 
 void				ft_open_window(char **argv);
