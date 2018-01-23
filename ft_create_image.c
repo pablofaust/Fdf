@@ -6,7 +6,7 @@
 /*   BY: PFAUST <MARVIN@42.FR>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   CREATED: 2018/01/10 14:44:01 BY PFAUST            #+#    #+#             */
-/*   Updated: 2018/01/17 18:19:47 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/23 16:36:45 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,52 @@ int			key_hook(int keycode, t_env *env)
 	return (0);
 }
 
-void		ft_display_coords(t_env *env)
+void		diago_montant(t_env *env, int x, int y, int new_origin)
 {
+	int		k;
+	int		vector;
+
+	k = 0;
+	while (k < env->scale * env->matrix[y][x + 1] && y - k >= 0 )
+	{
+		if ((vector = new_origin + ((x + k) * env->scale) + (((y - k) * env->scale) * env->width)) >=  0)
+		{
+			printf("MONTANT z : %d z_next : %d, k: vector : %d\n", env->matrix[y][x] , env->matrix[y][x + 1] , vector);
+			env->data_addr[vector] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+		}
+		//printf("%5d", new_origin + (x * env->scale) + ((y * env->scale) * env->width) + k);
+		k++;
+	}
+
+}
+void		diago_descendant(t_env *env, int x, int y, int new_origin)
+
+{
+	int		k;
+	int		vector;
+
+	k = 0;
+	while (k < env->scale * env->matrix[y][x + 1] && y - k >= 0 )
+	{
+		if ((vector = new_origin + ((x + k) * env->scale) + (((y + k) * env->scale) * env->width)) >=  0)
+		{
+			printf("DESCENDANT z : %d z_next : %d, k: vector : %d\n", env->matrix[y][x] ,env->matrix[y + 1][x] , vector);
+			env->data_addr[vector] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+		}
+		//printf("%5d", new_origin + (x * env->scale) + ((y * env->scale) * env->width) + k);
+		k++;
+	}
+}
+
+void		ft_display_coords(t_env *env)
+{	
+	int		z;
+	int		z_next;
 	int		x;
 	int		y;
 	int		k;
 	int		m;
-	int		x_prime;
+	int		vector;;
 	int		y_prime;
 	int		**modified_matrix;
 	int		new_origin;
@@ -38,32 +77,49 @@ void		ft_display_coords(t_env *env)
 	printf("WIDTH : %d\n\nHEIGHT : %d\n\n", env->width, env->height);
 	printf("margin x : %d, margin y : %d\n", env->margin_x, env->margin_y);
 	new_origin = (env->width * env->margin_y) + env->margin_x;
+	printf("new_origin : %d", new_origin);
 	y = 0;
 	while (y < env->y_len)
 	{
 		x = 0;
 		while (x < env->x_len)
 		{
-			if (x + 1 < env->x_len && env->matrix[y][x] == env->matrix[y][x + 1])
+			z = env->matrix[y][x];
+			z_next = env->matrix[y][x + 1];
+			if (x + 1 < env->x_len && z == z_next)
 			{
 				k = 0;
 				while (k < env->scale)
 				{
 					env->data_addr[new_origin + (x * env->scale) + ((y * env->scale) * env->width) + k] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
-					printf("%5d", new_origin + (x * env->scale) + ((y * env->scale) * env->width) + k);
+					//printf("%5d", new_origin + (x * env->scale) + ((y * env->scale) * env->width) + k);
 					k++;
 				}
 			}
-			printf("\n");
-			if (y + 1 < env->y_len && env->matrix[y][x] == env->matrix[y + 1][x])
+			else if (z_next > z)
+				diago_montant(env, x, y, new_origin);
+			else if (z_next < z)
+			{
+				diago_descendant(env, x, y, new_origin);
+			}
+			z_next = env->matrix[y + 1][x];
+			if (y + 1 < env->y_len && z == z_next)
 			{
 				k = 1;
 				while (k <= env->scale)
 				{
 					env->data_addr[new_origin + (x * env->scale) + ((y * env->scale) * env->width) + (k * env->width)] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
-					printf("%3d\n",new_origin + (x * env->scale) + ((y * env->scale) * env->width) + (k * env->width));
+					//printf("%3d\n",new_origin + (x * env->scale) + ((y * env->scale) * env->width) + (k * env->width));
 					k++;
 				}
+			}
+			else if (z_next < z)
+			{
+				diago_montant(env, x, y, new_origin);
+			}
+			else if (z_next > z)
+			{
+				diago_descendant(env, x, y, new_origin);
 			}
 			x++;
 		}
@@ -72,42 +128,92 @@ void		ft_display_coords(t_env *env)
 	}	
 }
 
-void		ft_display_coords_modif(t_env *env)
+t_points		*ft_calculate_x_prime(t_points *point, t_env *env, int index)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		m;
-	int		x_prime;
-	int		y_prime;
-	int		**modified_matrix;
+	//int		x_prime;
+	double		cosinus;
+	double		sinus;
+	t_points	tmp;
 
-	j = 0;
-	while (j < env->y_len)
+	if (index == 0)
 	{
-		i = 0;
-		while (i < env->x_len)
-		{
-			//x_prime = i * 3 / (env->matrix[j][i] + 1) + ((env->x_len * 10) / 2);
-			//y_prime = -j * 3 / (env->matrix[j][i] + 1) + ((env->y_len * 10) / 2);
-			ft_putnbr(-j);
-			dprintf(1, "x : %d, y : %d, z : %d\nx' : %d, y' : %d\n\n", i, j, env->matrix[j][i], x_prime, y_prime);
-			k = 1;
-			while (k <= 10)
-			{
-				m = 1;
-				while (m <= 10)
-				{
-					env->data_addr[(y_prime * env->y_len * k) + (y_prime * m)] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
-					m++;
-				}
-				k++;
-			}
-			i++;
-		}
+		cosinus = cos(env->rotation_x);
+		sinus = sin(env->rotation_x);
+		tmp.x = point->z * sinus + point->x * cosinus;
+		tmp.y = point->y;
+		tmp.z = point->z * cosinus - point->x * sinus;
+		return (ft_calculate_x_prime(&tmp, env, index + 1));
+	}
+	else if (index == 1)
+	{
+		cosinus = cos(env->rotation_y);
+		sinus = sin(env->rotation_y);
+		tmp.x = point->x;
+		tmp.y = point->y * cosinus - point->z * sinus;
+		tmp.z = point->y * sinus + point->z * cosinus;
+		return (ft_calculate_x_prime(&tmp, env, index + 1));
+	}
+	else if (index == 2)
+	{	
+		cosinus = cos(env->rotation_z);
+		sinus = sin(env->rotation_z);
+		tmp.x = point->x * cosinus - point->y * sinus;
+		tmp.y = point->x * sinus + point->y * cosinus;
+		tmp.z = point->z;
+		return (ft_calculate_x_prime(&tmp, env, index + 1));
+	}
+	return (point);
+}
+
+double			ft_rotate(t_points *point, t_env *env)
+{
+	double		coords;
+	double		x_prime;
+	double		y_prime;
+	int			index;
+	int			new_origin;
+
+	new_origin = (env->width * env->margin_y) + env->margin_x;
+	index = 0;
+	point = ft_calculate_x_prime(point, env, index);
+	x_prime = point->x * env->fov / (point->z + env->view_distance) / (env->width / 2);
+	y_prime = (0 - point->y) * env->fov / (point->z + env->view_distance) / (env->height / 2);
+	coords = new_origin + (x_prime * env->scale) + ((y_prime * env->scale) * env->width);
+	return (coords);
+}
+
+void		ft_draw_image(t_env *env)
+{
+	int			x;
+	int			y;
+	int			x_prime;
+	int			y_prime;
+	int			new_origin;
+	int			new_point;
+	t_points	point;
+
+	new_origin = (env->width * env->margin_y) + env->margin_x;
+	y = 0;
+	while (y < env->y_len)
+	{
 		printf("\n");
-		j++;
-	}	
+		x = 0;
+		while (x < env->x_len)
+		{
+			//point.x = (double)x;
+			//point.y = (double)y;
+			//point.z = (double)env->matrix[y][x];
+			//new_point = ft_rotate(&point, env);
+			//printf("%5f ",new_point);
+			//printf("coord : %d ", new_origin + (x * env->scale) + ((y * env->scale) * env->width));
+			x_prime = x * env->fov / (env->matrix[y][x] + env->view_distance);
+			y_prime = (0 - y) * env->fov / (env->matrix[y][x] + env->view_distance);
+			new_point = new_origin + (x_prime * env->scale) + ((y_prime * env->scale) * env->width); 
+			env->data_addr[new_point] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+			x++;
+		}
+		y++;
+	}
 }
 
 int			ft_create_image(t_env *env)
@@ -120,7 +226,7 @@ int			ft_create_image(t_env *env)
 					 (env->img, &env->bits_per_pixel, &env->bytes_per_line, &env->endian);
 	color = mlx_get_color_value(env->mlx, 0x00FFFFFF);
 	ft_display_coords(env);
-	//ft_fill_window(env);
+	//ft_draw_image(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	mlx_key_hook(env->win, key_hook, env);
 	mlx_loop(env->mlx);

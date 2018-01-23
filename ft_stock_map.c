@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:46:55 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/17 18:20:07 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/23 14:55:29 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ int					main (int argc, char **argv)
 	env.height = (env.y_len - 1) * env.scale * 2;
 	env.margin_x = (env.width / 2) / 2;
 	env.margin_y = (env.height /2) / 2;
+	env.fov = 5;
+	env.view_distance = 5;
+	env.rotation_x = 0.785398;
+	env.rotation_y = -0.610865;
+	env.rotation_z = 0;
 	ft_create_image(&env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:59:18 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/17 17:38:16 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/23 13:18:16 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,15 @@
 # include "libft/libft.h"
 # include <fcntl.h>
 #include <mlx.h>
+#include <math.h>
 //A RETIRER
 #include <stdio.h>
 
 typedef struct		s_points
 {
-	int				x;
-	int				y;
-	int				z;
-	int				z_right;
-	int				z_down;
-	int				z_diag;
-	struct s_points	*next;
+	double			x;
+	double			y;
+	double			z;
 }					t_points;
 
 typedef struct				s_env
@@ -48,6 +45,11 @@ typedef struct				s_env
 	int						margin_x;
 	int						margin_y;
 	int						scale;
+	int						fov;
+	int						view_distance;
+	double					rotation_x;
+	double					rotation_y;
+	double					rotation_z;
 }							t_env;
 
 void				ft_open_window(char **argv);
