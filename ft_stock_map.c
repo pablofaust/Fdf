@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:46:55 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/24 16:19:50 by cvermand         ###   ########.fr       */
+/*   Updated: 2018/01/24 17:24:48 by cvermand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ int					main (int argc, char **argv)
 	tab = ft_stock_map_in_tab(&env);
 	env.mlx = mlx_init();
 	env.title = argv[1];
-	env.scale = 10;
-	env.width = (env.x_len - 1) * env.scale * 2;
-	env.height = (env.y_len - 1) * env.scale * 2;
-	env.margin_x = (env.width / 2) / 2;
+	env.scale = 60;
+	env.width = fmax((env.x_len - 1) * env.scale * 2, (env.y_len - 1) * env.scale * 2);
+	env.height = fmax((env.x_len - 1) * env.scale * 2, (env.y_len - 1) * env.scale * 2);
+	env.margin_x =  (env.height / 2) / 2;
 	env.margin_y = (env.height /2) / 2;
 	env.fov = 5;
 	env.view_distance = 5;
