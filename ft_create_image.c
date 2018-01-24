@@ -6,7 +6,7 @@
 /*   BY: PFAUST <MARVIN@42.FR>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   CREATED: 2018/01/10 14:44:01 BY PFAUST            #+#    #+#             */
-/*   Updated: 2018/01/24 14:21:24 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/24 16:16:27 by cvermand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,38 @@ double			ft_rotate(t_points *point, t_env *env)
 	return (coords);
 }
 
+void		draw_line_left(int old, int new, t_env *env)
+{
+	int		x_new;
+	int		y_new;
+	int		x_old;
+	int		y_old;
+	int		x;
+	int		x_c;
+	int		y_c;
+	int		new_coord;
+
+	x_new = new % env->width;
+	x_old = old % env->width;
+	y_new = new / env->height;
+	y_old = old / env->height;
+	
+	if (x_old < x_new)
+	{
+		x = x_old;
+		while (x < x_new)
+		{
+			x_c = x;
+			y_c = y_old + ((y_new - y_old) * (x - x_old)) / (x_new - x_old);
+			new_coord = y_c * env->height + x_c;
+			env->data_addr[new_coord] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+			x++;
+		}
+	}
+	printf("old num : %d, new num : %d\n", old, new);
+	printf("old coord : (%d, %d) new coord : (%d, %d)\n", x_old, y_old, x_new, y_new);
+}
+
 void		ft_draw_image(t_env *env)
 {
 	double			x;
@@ -191,35 +223,64 @@ void		ft_draw_image(t_env *env)
 	int			new_origin;
 	int			new_point;
 	t_points	point;
+	int			count;
 	int			i;
+	int			old_point;
+	int			low_point;
+	t_points	low;
+	t_points	high;
 
-
+	count = 0;
+	old_point = 0;
 	new_origin = (env->width * env->margin_y) + env->margin_x;
 	y = 0;
+	printf("height : %d width : %d\n", env->height, env->width);
+	printf("x len  : %d y len : %d\n", env->x_len, env->y_len);
 	while (y < env->y_len)
 	{
 		printf("\n");
 		x = 0;
 		while (x < env->x_len)
 		{
-			//point.x = (double)x;
-			//point.y = (double)y;
-			//point.z = (double)env->matrix[y][x];
-			//new_point = ft_rotate(&point, env);
-			//printf("%5f ",new_point);
-			//printf("coord : %d ", new_origin + (x * env->scale) + ((y * env->scale) * env->width));
-			//PARALLELE
-			//(env->matrix[y][x] != 0) ? (x_prime = (double)x + (0.5 * env->matrix[y][x])) : (x_prime = (double)x);
-			//(env->matrix[y][x] != 0) ? (y_prime = (double)y + (0.25 * env->matrix[y][x])) : (y_prime = (double)y);
-			//ISO
+			count++;
 			x_prime = (0.5 * x) - (0.5 * y);
 			y_prime = (0 - (env->matrix[(int)y][(int)x] / 5)) + (0.25 * x) + (0.25 * y);
-			new_point = new_origin + (x_prime  * env->scale) + ((y_prime *  env->scale) * env->width); 
+		//	i = 1;
+		//	while (i < env->scale)
+		//	{	
+			new_point = new_origin + (x_prime  * env->scale) + ((y_prime *  env->scale) * env->width);
+//			printf("newpoint : %d\n", new_point);
 			env->data_addr[new_point] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+			
+			if (env->matrix[(int)y][(int)x] > 0)
+			{
+				x_prime = (0.5 * x) - (0.5 * y);
+				y_prime = (0 - (0 / 5)) + (0.25 * x) + (0.25 * y);
+				low_point =  new_origin + (x_prime  * env->scale) + ((y_prime *  env->scale) * env->width);
+				low.x = low_point % env->width;
+				low.y = low_point / env->height;
+				high.x = new_point % env->width;
+				high.y = new_point / env->width;
+				i = high.y;
+				printf("high y : %d, low y : %d\n", high.y, low.y);
+				while (i < low.y)
+				{
+					env->data_addr[low.x + (i * env->height)] = mlx_get_color_value(env->mlx, 0x00FF0000);
+					i = i + env->width;
+				}
+				printf("i : %d\n", i);
+			}
+			if (old_point && ((int)x % env->width - 1) != 0)
+				;
+				//draw_line_left(old_point, new_point, env);
+			old_point = new_point;
 			x++;
+			//printf("x : %f\n", x);
 		}
 		y++;
+		//printf("y : %f\n", y);
 	}
+	printf("count: %d\n", count);
 }
 
 int			ft_create_image(t_env *env)

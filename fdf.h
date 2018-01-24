@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:59:18 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/23 13:18:16 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/24 15:39:42 by cvermand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 
 typedef struct		s_points
 {
-	double			x;
-	double			y;
-	double			z;
+	int			x;
+	int			y;
+	int			z;
 }					t_points;
 
 typedef struct				s_env

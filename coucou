@@ -1,0 +1,179 @@
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0   10   10    0    0   10   10    0    0    0   10   10   10   10   10    0    0    0
+    0    0   10   10    0    0   10   10    0    0    0    0    0    0    0   10   10    0    0
+    0    0   10   10    0    0   10   10    0    0    0    0    0    0    0   10   10    0    0
+    0    0   10   10   10   10   10   10    0    0    0    0   10   10   10   10    0    0    0
+    0    0    0   10   10   10   10   10    0    0    0   10   10    0    0    0    0    0    0
+    0    0    0    0    0    0   10   10    0    0    0   10   10    0    0    0    0    0    0
+    0    0    0    0    0    0   10   10    0    0    0   10   10   10   10   10   10    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0    0
+height : 2000 width : 3600
+x len  : 19 y len : 11
+
+newpoint : 1800900
+newpoint : 1890950
+newpoint : 1981000
+newpoint : 2071050
+newpoint : 2161100
+newpoint : 2251150
+newpoint : 2341200
+newpoint : 2431250
+newpoint : 2521300
+newpoint : 2611350
+newpoint : 2701400
+newpoint : 2791450
+newpoint : 2881500
+newpoint : 2971550
+newpoint : 3061600
+newpoint : 3151650
+newpoint : 3241700
+newpoint : 3331750
+newpoint : 3421800
+
+newpoint : 1890850
+newpoint : 1980900
+newpoint : 2070950
+newpoint : 2161000
+newpoint : 2251050
+newpoint : 2341100
+newpoint : 2431150
+newpoint : 2521200
+newpoint : 2611250
+newpoint : 2701300
+newpoint : 2791350
+newpoint : 2881400
+newpoint : 2971450
+newpoint : 3061500
+newpoint : 3151550
+newpoint : 3241600
+newpoint : 3331650
+newpoint : 3421700
+newpoint : 3511750
+
+newpoint : 1980800
+newpoint : 2070850
+newpoint : 1440900
+newpoint : 1530950
+newpoint : 2341000
+newpoint : 2431050
+newpoint : 1801100
+newpoint : 1891150
+newpoint : 2701200
+newpoint : 2791250
+newpoint : 2881300
+newpoint : 2251350
+newpoint : 2341400
+newpoint : 2431450
+newpoint : 2521500
+newpoint : 2611550
+newpoint : 3421600
+newpoint : 3511650
+newpoint : 3601700
+
+newpoint : 2070750
+newpoint : 2160800
+newpoint : 1530850
+newpoint : 1620900
+newpoint : 2430950
+newpoint : 2521000
+newpoint : 1891050
+newpoint : 1981100
+newpoint : 2791150
+newpoint : 2881200
+newpoint : 2971250
+newpoint : 3061300
+newpoint : 3151350
+newpoint : 3241400
+newpoint : 3331450
+newpoint : 2701500
+newpoint : 2791550
+newpoint : 3601600
+newpoint : 3691650
+
+newpoint : 2160700
+newpoint : 2250750
+newpoint : 1620800
+newpoint : 1710850
+newpoint : 2520900
+newpoint : 2610950
+newpoint : 1981000
+newpoint : 2071050
+newpoint : 2881100
+newpoint : 2971150
+newpoint : 3061200
+newpoint : 3151250
+newpoint : 3241300
+newpoint : 3331350
+newpoint : 3421400
+newpoint : 2791450
+newpoint : 2881500
+newpoint : 3691550
+newpoint : 3781600
+
+newpoint : 2250650
+newpoint : 2340700
+newpoint : 1710750
+newpoint : 1800800
+newpoint : 1890850
+newpoint : 1980900
+newpoint : 2070950
+newpoint : 2161000
+newpoint : 2971050
+newpoint : 3061100
+newpoint : 3151150
+newpoint : 3241200
+newpoint : 2611250
+newpoint : 2701300
+newpoint : 2791350
+newpoint : 2881400
+newpoint : 3691450
+newpoint : 3781500
+newpoint : 3871550
+
+newpoint : 2340600
+newpoint : 2430650
+newpoint : 2520700
+newpoint : 1890750
+newpoint : 1980800
+newpoint : 2070850
+newpoint : 2160900
+newpoint : 2250950
+newpoint : 3061000
+newpoint : 3151050
+newpoint : 3241100
+newpoint : 2611150
+newpoint : 2701200
+newpoint : 3511250
+newpoint : 3601300
+newpoint : 3691350
+newpoint : 3781400
+newpoint : 3871450
+newpoint : 3961500
+
+newpoint : 2430550
+newpoint : 2520600
+newpoint : 2610650
+newpoint : 2700700
+newpoint : 2790750
+newpoint : 2880800
+newpoint : 2250850
+newpoint : 2340900
+newpoint : 3150950
+newpoint : 3241000
+newpoint : 3331050
+newpoint : 2701100
+newpoint : 2791150
+newpoint : 3601200
+newpoint : 3691250
+newpoint : 3781300
+newpoint : 3871350
+newpoint : 3961400
+newpoint : 4051450
+
+newpoint : 2520500
+newpoint : 2610550
+newpoint : 2700600
+newpoint : 2790650
+newpoint : 288070
