@@ -6,7 +6,7 @@
 /*   BY: PFAUST <MARVIN@42.FR>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   CREATED: 2018/01/10 14:44:01 BY PFAUST            #+#    #+#             */
-/*   Updated: 2018/01/23 16:36:45 by pfaust           ###   ########.fr       */
+/*   Updated: 2018/01/24 14:21:24 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,13 +184,15 @@ double			ft_rotate(t_points *point, t_env *env)
 
 void		ft_draw_image(t_env *env)
 {
-	int			x;
-	int			y;
-	int			x_prime;
-	int			y_prime;
+	double			x;
+	double			y;
+	double			x_prime;
+	double			y_prime;
 	int			new_origin;
 	int			new_point;
 	t_points	point;
+	int			i;
+
 
 	new_origin = (env->width * env->margin_y) + env->margin_x;
 	y = 0;
@@ -206,9 +208,13 @@ void		ft_draw_image(t_env *env)
 			//new_point = ft_rotate(&point, env);
 			//printf("%5f ",new_point);
 			//printf("coord : %d ", new_origin + (x * env->scale) + ((y * env->scale) * env->width));
-			x_prime = x * env->fov / (env->matrix[y][x] + env->view_distance);
-			y_prime = (0 - y) * env->fov / (env->matrix[y][x] + env->view_distance);
-			new_point = new_origin + (x_prime * env->scale) + ((y_prime * env->scale) * env->width); 
+			//PARALLELE
+			//(env->matrix[y][x] != 0) ? (x_prime = (double)x + (0.5 * env->matrix[y][x])) : (x_prime = (double)x);
+			//(env->matrix[y][x] != 0) ? (y_prime = (double)y + (0.25 * env->matrix[y][x])) : (y_prime = (double)y);
+			//ISO
+			x_prime = (0.5 * x) - (0.5 * y);
+			y_prime = (0 - (env->matrix[(int)y][(int)x] / 5)) + (0.25 * x) + (0.25 * y);
+			new_point = new_origin + (x_prime  * env->scale) + ((y_prime *  env->scale) * env->width); 
 			env->data_addr[new_point] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
 			x++;
 		}
@@ -225,8 +231,8 @@ int			ft_create_image(t_env *env)
 	env->data_addr = (unsigned int*)mlx_get_data_addr \
 					 (env->img, &env->bits_per_pixel, &env->bytes_per_line, &env->endian);
 	color = mlx_get_color_value(env->mlx, 0x00FFFFFF);
-	ft_display_coords(env);
-	//ft_draw_image(env);
+	//ft_display_coords(env);
+	ft_draw_image(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	mlx_key_hook(env->win, key_hook, env);
 	mlx_loop(env->mlx);
