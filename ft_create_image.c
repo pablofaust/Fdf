@@ -6,7 +6,7 @@
 /*   BY: PFAUST <MARVIN@42.FR>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   CREATED: 2018/01/10 14:44:01 BY PFAUST            #+#    #+#             */
-/*   Updated: 2018/01/24 17:27:00 by cvermand         ###   ########.fr       */
+/*   Updated: 2018/01/25 13:37:22 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void		draw_line_left(int old, int new, t_env *env)
 }
 
 
-void		ft_draw_image(t_env *env)
+void		ft_draw_points(t_env *env)
 {
 	double			x;
 	double			y;
@@ -239,30 +239,20 @@ void		ft_draw_image(t_env *env)
 	printf("x len  : %d y len : %d\n", env->x_len, env->y_len);
 	while (y < env->y_len)
 	{
-		printf("\n");
+		//printf("\n");
 		x = 0;
 		while (x < env->x_len)
 		{
 			count++;
-			x_prime = (0.5 * x) - (0.5 * y);
-			y_prime = (0 - (env->matrix[(int)y][(int)x] / 5)) + (0.25 * x) + (0.25 * y);
+			x_prime = (1 * x) - (1 * y);
+			y_prime = (0 - (env->matrix[(int)y][(int)x] / 3)) + (0.5 * x) + (0.5 * y);
 		//	i = 1;
 		//	while (i < env->scale)
 		//	{	
 			new_point = (double)new_origin + (x_prime  * (double)env->scale) +
 				((y_prime *  (double)env->scale) * env->width);
-			
-			
-			
-			
-			if ((int)x % 2)
-				printf("newpoint : \033[38;5;34m%f\033[0m x: %d, y: %d\n", (double)new_origin + (x_prime  * (double)env->scale) + ((y_prime *  (double)env->scale) * env->width), new_point / env->height, new_point % env->height);
-			else 
-				printf("newpoint : %f x: %d, y: %d\n", (double)new_origin + (x_prime  * (double)env->scale) + ((y_prime *  (double)env->scale) * env->width),  new_point / env->height, new_point % env->height);
 		//	printf("%u\n", env->data_addr[new_point]);
-			
-			env->data_addr[new_point] = ((int)x % 2) ?  mlx_get_color_value(env->mlx, 0x0004B404) : mlx_get_color_value(env->mlx, 0x00FFFFFF);
-			
+			env->data_addr[new_point] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
 			/*if (env->matrix[(int)y][(int)x] > 0)
 			{
 				x_prime = (1 * x) - (1 * y);
@@ -294,6 +284,53 @@ void		ft_draw_image(t_env *env)
 	printf("count: %d\n", count);
 }
 
+int			ft_calculate_position(int x, int y, t_env *env)
+{
+	double	x_prime;
+	double	y_prime;
+	int		position;
+	int		new_origin;
+
+	x_prime = (1 * x) - (1 * y);
+	y_prime = (0 - (env->matrix[(int)y][(int)x] / 3)) + (0.5 * x) + (0.5 * y);
+	position = (double)env->new_origin + (x_prime * (double)env->scale) + ((y_prime * (double)env->scale) * env->width);
+	return (position);
+}
+
+void		ft_draw_vertical_line(int a, int b, t_env *env)
+{
+	int		position;
+
+	position = a;
+	while (position < b)
+	{
+		env->data_addr[position] = mlx_get_color_value(env->mlx, 0x00FFFFFF);
+		position = position + env->width;
+	}
+}
+
+void		ft_draw_atob_lines(t_env *env)
+{
+	int		y;
+	int		x;
+	int		a;
+	int		b;
+
+	y = 0;
+	while (y < env->y_len)
+	{
+		x = 0;
+		while (x < env->x_len)
+		{
+			a = ft_calculate_position(x, y, env);
+			b = ft_calculate_position(x + 1, y, env);
+			if (env->matrix[y][x] > 0 && env->matrix[y][x + 1] == 0)
+				ft_draw_vertical_line(a, b, env);
+			x++;
+		}
+		y++;
+	}
+}
 int			ft_create_image(t_env *env)
 {
 	unsigned int		color;
@@ -304,7 +341,8 @@ int			ft_create_image(t_env *env)
 					 (env->img, &env->bits_per_pixel, &env->bytes_per_line, &env->endian);
 	color = mlx_get_color_value(env->mlx, 0x00FFFFFF);
 	//ft_display_coords(env);
-	ft_draw_image(env);
+	ft_draw_points(env);
+	ft_draw_atob_lines(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	mlx_key_hook(env->win, key_hook, env);
 	mlx_loop(env->mlx);

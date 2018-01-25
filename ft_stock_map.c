@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:46:55 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/24 17:24:48 by cvermand         ###   ########.fr       */
+/*   Updated: 2018/01/25 13:31:09 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int					main (int argc, char **argv)
 	env.rotation_x = 0.785398;
 	env.rotation_y = -0.610865;
 	env.rotation_z = 0;
+	env.new_origin = (env.width * env.margin_y) + env.margin_x;
 	ft_create_image(&env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pfaust <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/04 11:59:18 by pfaust            #+#    #+#             */
-/*   Updated: 2018/01/24 15:39:42 by cvermand         ###   ########.fr       */
+/*   Updated: 2018/01/25 13:28:09 by pfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct				s_env
 	int						height;
 	int						margin_x;
 	int						margin_y;
+	int						new_origin;
 	int						scale;
 	int						fov;
 	int						view_distance;
